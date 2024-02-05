@@ -1,21 +1,24 @@
 from ollama import Client
 from langchain.llms.ollama import Ollama
 from .chat_history import ChatHistory
+import os
 
 ollama_model = 'openhermes'
-ollama_host = 'http://10.8.0.100:11435'
+OLLAMA_HOST = os.environ.get('OLLAMA_BOT_BASE_URL')
+if OLLAMA_HOST is None:
+    raise ValueError("OLLAMA_BOT_BASE_URL env variable is not set")
 
 default_system_prompt_path = './system/default.md'
 
 def get_client(system=''):
     return Ollama(
-        base_url=ollama_host,
+        base_url=OLLAMA_HOST,
         model=ollama_model,
         system=system,
     )
 
 def list_models_names():
-    models = Client(ollama_host).list()["models"]
+    models = Client(OLLAMA_HOST).list()["models"]
     return [m['name'] for m in models]
 
 
@@ -61,5 +64,15 @@ class OllamaClient:
     def set_model(self, model_name):
         self.client.model = model_name
 
+    def set_host(self, host):
+        self.client.base_url = host
+
     def set_system(self, system):
         self.client.system = system
+
+    def get_status(self):
+        return (
+            self.client.base_url, 
+            self.client.model,
+            self.client.system
+        )

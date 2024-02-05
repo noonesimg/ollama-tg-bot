@@ -8,7 +8,11 @@ async def list_models(update: Update, _):
     keybaord = [[InlineKeyboardButton(name, callback_data=f'/setmodel {name}')] for name in model_names]
     reply_markup = InlineKeyboardMarkup(keybaord)
 
-    await update.message.reply_text('!! chat history will be reset !!\nPick a model:', reply_markup=reply_markup)
+    await update.message.reply_text(
+        text='*WARNING:* chat history will be reset\nPick a model:', 
+        reply_markup=reply_markup,
+        parse_mode='markdown'
+    )
 
 list_models_handler = CommandHandler("models", list_models)
 

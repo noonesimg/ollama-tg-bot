@@ -2,10 +2,10 @@ import os
 from telegram import Update
 from telegram.ext import CommandHandler, ApplicationHandlerStop, TypeHandler
 
-chat_ids = os.environ.get("BOT_CHAT_IDS")
+CHAT_IDS = os.environ.get("OLLAMA_BOT_CHAT_IDS")
 valid_user_ids = []
-if chat_ids is not None:
-    valid_user_ids = [int(id) for id in chat_ids.split(',')]
+if CHAT_IDS is not None:
+    valid_user_ids = [int(id) for id in CHAT_IDS.split(',')]
 
 
 async def get_chat_id(update: Update, _):
@@ -15,7 +15,7 @@ async def get_chat_id(update: Update, _):
 get_handler = CommandHandler("chatid", get_chat_id)
 
 async def filter_chat_id(update: Update, _):
-    if update.effective_user.id in valid_user_ids:
+    if update.effective_user.id in valid_user_ids or update.message.text == '/chatid':
         pass
     else:
         await update.effective_message.reply_text("access denied")

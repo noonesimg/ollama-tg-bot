@@ -6,6 +6,7 @@ async def start(update: Update, _):
         "Ask a question to start conversation",
     )
     keyboard = [
+        ['/status'],
         ['/models'],
         ['/systems'],
         ['/reset']
