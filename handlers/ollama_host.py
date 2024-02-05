@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import filters, CommandHandler, ConversationHandler, MessageHandler
 from ollama import Client
 from llm import clinet
+from rich import print
 # Define states
 SET_HOST = range(1)
 
@@ -14,10 +15,12 @@ async def set_llama_host(update: Update, _):
 
 
 async def on_got_host(update: Update, _):
-    test_client = Client(
-        base_url=update.message.text,
-    )
+    print(f'[bold red]MESSAGE[/] {update.message.text}')
     try:
+        test_client = Client(
+            base_url=update.message.text,
+        )
+
         test_client._client.timeout = 2
         test_client.list()
         clinet.set_host(update.message.text)

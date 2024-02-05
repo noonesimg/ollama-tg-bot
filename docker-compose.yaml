@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  bot:
+    image: ollama-tg-bot
+    environment:
+      - OLLAMA_BOT_TOKEN=${OLLAMA_BOT_TOKEN}
+      - OLLAMA_BOT_CHAT_IDS=${OLLAMA_BOT_CHAT_IDS}
+      - OLLAMA_BOT_BASE_URL=${OLLAMA_BOT_BASE_URL}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
