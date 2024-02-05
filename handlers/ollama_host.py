@@ -15,12 +15,8 @@ async def set_llama_host(update: Update, _):
 
 
 async def on_got_host(update: Update, _):
-    print(f'[bold red]MESSAGE[/] {update.message.text}')
     try:
-        test_client = Client(
-            base_url=update.message.text,
-        )
-
+        test_client = Client(host=update.message.text)
         test_client._client.timeout = 2
         test_client.list()
         clinet.set_host(update.message.text)
